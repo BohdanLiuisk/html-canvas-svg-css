@@ -1,0 +1,10 @@
+.pusle-circle { 
+    fill: blue; 
+    animation: pulse 2s alternate infinite;
+}
+
+@keyframes pulse {
+  100% {
+    r: 10;
+  }s
+}
