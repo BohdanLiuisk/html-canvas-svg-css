@@ -1,0 +1,11 @@
+.snake {
+    fill: #000;
+}
+
+.apple {
+    fill: #f00;
+}
+
+.game-over {
+    border-color: #fcc !important;
+}
