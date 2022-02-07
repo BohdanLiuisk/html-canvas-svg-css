@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using SimpleChat.Hubs;
 
 namespace SimpleChat
 {
@@ -18,7 +19,10 @@ namespace SimpleChat
         
         public static void ConfigureServices(IServiceCollection services)
         {
+            services.AddSignalR();
+            
             services.AddControllers();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "SimpleChat", Version = "v1"});
@@ -30,15 +34,21 @@ namespace SimpleChat
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                
                 app.UseSwagger();
+                
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SimpleChat v1"));
             }
-
+            
             app.UseHttpsRedirection();
             
             app.UseRouting();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<MessageHub>("/messageHub");
+            });
         }
     }
 }
